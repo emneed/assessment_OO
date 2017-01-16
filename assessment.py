@@ -81,4 +81,74 @@ Part 1: Discussion
 # Parts 2 through 5:
 # Create your classes and class methods
 
+class Student(object):
+    """Creates a student object with first and last name and address"""
 
+    def __init__(self, first_name, last_name, address):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.address = address
+
+
+
+class Question(object):
+    """Creates a question object with the question text and correct answer"""
+
+    def __init__(self, question, correct_answer):
+        self.question = question
+        self.correct_answer = correct_answer
+
+
+    def ask_and_evaluate(self):
+        """Asks user a question and returns True/False based on correctness"""
+        user_answer = raw_input(self.question + " > ")
+        return (user_answer == self.correct_answer)
+
+
+
+class Exam(object):
+    """Creates an exam object with a list of questions and an exam name"""
+
+    def __init__(self, name):
+        self.name = name
+        self.questions = []
+
+
+    def add_question(self, question, correct_answer):
+        """Takes a question an correct answer and adds to list of exam q's"""
+        new_question = Question(question, correct_answer)
+        self.questions.append(new_question)
+
+
+    def administer(self):
+        """Asks a user each question in the exam and returns a percentage score"""
+        student_score = 0
+        num_questions = len(self.questions)
+
+        for question in self.questions:
+            if question.ask_and_evaluate():
+                student_score += 1
+
+        return "{0:.2f}".format((float(student_score) / float(num_questions)) * 100)
+
+
+def take_test(student, exam):
+    """Takes a student and an exam, administers the exam, assigns score"""
+    score = exam.administer()
+    student.score = score
+    print("Score on %s: %s" % (exam.name, score))
+
+
+def example():
+    new_student = Student("Emily", "Need", "187 Bocana St.")
+    exam = Exam("Midterm")
+
+    exam.add_question("What is the method used to ask a student a question?",
+                      ".ask_and_evaluate()")
+    exam.add_question("Why is apartment hunting so difficult?", "Reasons")
+    exam.add_question("What is the name of the cat at HackBright?", "Instance")
+    exam.add_question("Who is clearly the coolest cohort?", "Ada")
+    exam.add_question("What is the air speed velocity of an unladen swallow?",
+                      "African or European?")
+
+    take_test(new_student, exam)
