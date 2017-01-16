@@ -132,15 +132,34 @@ class Exam(object):
         return "{0:.2f}".format((float(student_score) / float(num_questions)) * 100)
 
 
+
+class Quiz(Exam):
+    """Creates a quiz object that inherits from the exam object"""
+
+    def administer(self):
+        """Asks a user each question in a quiz and returns Pass/Fail"""
+        score = float(super(Quiz, self).administer())
+        return (score >= 50)
+
+
+############################END CLASSES###################################
+
+
 def take_test(student, exam):
     """Takes a student and an exam, administers the exam, assigns score"""
     score = exam.administer()
     student.score = score
+    if (score is True):
+        score = "Passed"
+    elif (score is False):
+        score = "Failed"
+
     print("Score on %s: %s" % (exam.name, score))
 
 
 def example():
     new_student = Student("Emily", "Need", "187 Bocana St.")
+    #exam = Quiz("Mini-Quiz") #Can be used to test Quiz.administer()
     exam = Exam("Midterm")
 
     exam.add_question("What is the method used to ask a student a question?",
@@ -152,3 +171,4 @@ def example():
                       "African or European?")
 
     take_test(new_student, exam)
+
