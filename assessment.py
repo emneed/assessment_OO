@@ -101,6 +101,7 @@ class Question(object):
 
     def ask_and_evaluate(self):
         """Asks user a question and returns True/False based on correctness"""
+
         user_answer = raw_input(self.question + " > ")
         return (user_answer == self.correct_answer)
 
@@ -116,12 +117,14 @@ class Exam(object):
 
     def add_question(self, question, correct_answer):
         """Takes a question an correct answer and adds to list of exam q's"""
+
         new_question = Question(question, correct_answer)
         self.questions.append(new_question)
 
 
     def administer(self):
         """Asks a user each question in the exam and returns a percentage score"""
+
         student_score = 0
         num_questions = len(self.questions)
 
@@ -149,6 +152,8 @@ def take_test(student, exam):
     """Takes a student and an exam, administers the exam, assigns score"""
     score = exam.administer()
     student.score = score
+
+    #Changes the score value to Pass/Fail if score comes from a Quiz
     if (score is True):
         score = "Passed"
     elif (score is False):
@@ -158,10 +163,13 @@ def take_test(student, exam):
 
 
 def example():
+    """Makes a student and exam/quiz, then administers the exam/quiz"""
+
     new_student = Student("Emily", "Need", "187 Bocana St.")
     #exam = Quiz("Mini-Quiz") #Can be used to test Quiz.administer()
     exam = Exam("Midterm")
 
+    #Adds 5 questions and correct answers
     exam.add_question("What is the method used to ask a student a question?",
                       ".ask_and_evaluate()")
     exam.add_question("Why is apartment hunting so difficult?", "Reasons")
